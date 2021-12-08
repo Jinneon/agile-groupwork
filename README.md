@@ -1,6 +1,7 @@
 # agile-groupwork
 Jesse Lintilä
 Amanda Myrevik-Snellman
+Oskar Bäckman
 
 A simple template for a console application with SQLite database.
 
