@@ -1,9 +1,8 @@
 # agile-groupwork
 
 Jesse Lintilä
-Feat GitBash Jesse Lintilä
-Lena Nyman-Lehtinen
 Amanda Myrevik-Snellman
+Oskar Bäckman
 
 A simple template for a console application with SQLite database.
 
