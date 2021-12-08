@@ -2,6 +2,7 @@
 Jesse Lintilä
 Amanda Myrevik-Snellman
 Oskar Bäckman
+Martin Finnholm
 
 A simple template for a console application with SQLite database.
 
