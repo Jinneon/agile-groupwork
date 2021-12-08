@@ -1,5 +1,6 @@
 # agile-groupwork
 Jesse Lintilä
+Feat GitBash Jesse Lintilä
 Lena Nyman-Lehtinen
 Amanda Myrevik-Snellman
 
