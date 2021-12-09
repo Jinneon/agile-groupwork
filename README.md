@@ -5,6 +5,8 @@ Oskar Bäckman
 Martin Finnholm  
 Lena Nyman-Lehtinen  
 
+Link to trello board  https://trello.com/b/QeSjVtx3/agile-project
+
 
 
 
