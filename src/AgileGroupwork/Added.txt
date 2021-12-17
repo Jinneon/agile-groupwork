@@ -1,0 +1,3 @@
+Jesse 17.12.2021
+Added basic menu for features, code example how to add user input to sql,
+coded how to show all scores.
