@@ -76,8 +76,30 @@ namespace Groupwork
             }
             else if (choice == 3)
             {
-                //Add code for showing score only for one person which user searches
-                Console.WriteLine("Add code for this feature");
+                                Console.WriteLine("");
+                Console.WriteLine("Choose a person");
+                string person = Console.ReadLine();
+                Console.WriteLine("");
+
+                sql="SELECT COUNT(*) FROM Highscores WHERE (name = @user)";
+                SQLiteCommand check_User_Name = new SQLiteCommand(sql, m_dbConnection);
+                check_User_Name.Parameters.AddWithValue("@user", person);
+                int UserExist = (int)(long)check_User_Name.ExecuteScalar();
+
+                if(UserExist > 0)
+                {
+                    sql = "SELECT name, score FROM Highscores WHERE name = '" + person + "'";
+                    command = new SQLiteCommand(sql, m_dbConnection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Person doesn't exist");
+                }
             }
             else if (choice == 4)
             {

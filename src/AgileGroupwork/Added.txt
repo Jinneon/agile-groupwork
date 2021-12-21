@@ -3,3 +3,5 @@ Added basic menu for features, code example how to add user input to sql,
 coded how to show all scores.
 Jesse 21.12.2021
 Code for adding score for a person and deleted duplicate program.cs
+Amanda 21.12.2021
+Coded "Show score for person".
