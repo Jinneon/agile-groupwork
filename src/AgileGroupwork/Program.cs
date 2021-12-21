@@ -104,7 +104,8 @@ namespace Groupwork
             else if (choice == 4)
             {
                 //Add code for quitting program
-                Console.WriteLine("Add code for this feature");
+                Console.WriteLine("Bye!");
+                m_dbConnection.Close();
             }
 
             // Insert dummy data
@@ -117,7 +118,6 @@ namespace Groupwork
               sql = "INSERT INTO Highscores (name, score) VALUES ('And I', 9001)";
               command = new SQLiteCommand(sql, m_dbConnection);
               command.ExecuteNonQuery();*/
-            m_dbConnection.Close();
         }
 
 
