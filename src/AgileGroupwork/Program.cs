@@ -25,25 +25,26 @@ namespace Groupwork
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
 
-            Console.WriteLine("How many players?");
+            Console.WriteLine("How many persons?");
             int input = Convert.ToInt32(Console.ReadLine());
             int count = 0;
             while (true)
             {
                 if (count < input)
                 {
-                    Console.WriteLine("Player name?");
+                    Console.WriteLine("Person name?");
                     string personName = Console.ReadLine();
 
                     sql = "INSERT INTO Highscores (name, score) " +
               "VALUES (@someValue, @someOtherValue);";
-                    int defaultScore = 0;
+                    Console.WriteLine(" Score for a person?");
+                    int score = Convert.ToInt32(Console.ReadLine());
 
                     using (var cmd = new SQLiteCommand(sql, m_dbConnection))
                     {
                         cmd.Parameters.AddWithValue("@someValue", personName);
                         //Default value for score is zero;
-                        cmd.Parameters.AddWithValue("@someOtherValue", defaultScore);
+                        cmd.Parameters.AddWithValue("@someOtherValue", score);
                         cmd.ExecuteNonQuery();
                     }
                     count++;
@@ -55,11 +56,11 @@ namespace Groupwork
                 }
 
             }
-            Console.WriteLine("Add score for a person: Write 1");
+
             Console.WriteLine("Show all scores: Write 2");
-            Console.WriteLine("Show a persons score: Write 3");
+            Console.WriteLine("Show score for person: Write 3");
             //  Console.WriteLine("Extras options: Write ex");
-            Console.WriteLine("Add score for a person: Write quit");
+            Console.WriteLine("Quit program: Write 4");
             int choice = Convert.ToInt32(Console.ReadLine());
             if (choice == 2)
             {
@@ -73,9 +74,15 @@ namespace Groupwork
                 }
 
             }
-            else if (choice == 1)
+            else if (choice == 3)
             {
-                //Add feature add score for a person
+                //Add code for showing score only for one person which user searches
+                Console.WriteLine("Add code for this feature");
+            }
+            else if (choice == 4)
+            {
+                //Add code for quitting program
+                Console.WriteLine("Add code for this feature");
             }
 
             // Insert dummy data
