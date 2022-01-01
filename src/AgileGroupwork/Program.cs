@@ -26,19 +26,40 @@ namespace Groupwork
             command.ExecuteNonQuery();
 
             Console.WriteLine("How many persons?");
-            int input = Convert.ToInt32(Console.ReadLine());
+
+            var input = Console.ReadLine();
+            int sco2;
+
+            while (!int.TryParse(input, out sco2))
+            {
+                Console.WriteLine("This is not a number!");
+                input = Console.ReadLine();
+            }
             int count = 0;
             while (true)
             {
-                if (count < input)
+                if (count < sco2)
                 {
                     Console.WriteLine("Person name?");
                     string personName = Console.ReadLine();
+                    if (string.IsNullOrEmpty(personName))
+                    {
+                        Console.WriteLine("Name can't be empty! Input your name once more");
+                        personName = Console.ReadLine();
+                    }
 
                     sql = "INSERT INTO Highscores (name, score) " +
               "VALUES (@someValue, @someOtherValue);";
                     Console.WriteLine("Score for a person?");
-                    int score = Convert.ToInt32(Console.ReadLine());
+                    var score = Console.ReadLine();
+                    int sco;
+
+                    while (!int.TryParse(score, out sco))
+                    {
+                        Console.WriteLine("This is not a number!");
+                        score = Console.ReadLine();
+                    }
+
 
                     using (var cmd = new SQLiteCommand(sql, m_dbConnection))
                     {
@@ -81,11 +102,24 @@ namespace Groupwork
                         {
                             Console.WriteLine("Person name?");
                             string personName = Console.ReadLine();
+                            if (string.IsNullOrEmpty(personName))
+                            {
+                                Console.WriteLine("Name can't be empty! Input your name");
+                                personName = Console.ReadLine();
+                            }
 
                             sql = "INSERT INTO Highscores (name, score) " +
                       "VALUES (@someValue, @someOtherValue);";
                             Console.WriteLine(" Score for a person?");
-                            int score = Convert.ToInt32(Console.ReadLine());
+
+                            var score = Console.ReadLine();
+                            int sco;
+
+                            while (!int.TryParse(score, out sco))
+                            {
+                                Console.WriteLine("This is not a number!");
+                                score = Console.ReadLine();
+                            }
 
                             using (var cmd = new SQLiteCommand(sql, m_dbConnection))
                             {
@@ -120,6 +154,11 @@ namespace Groupwork
                     Console.WriteLine("");
                     Console.WriteLine("Choose a person");
                     string person = Console.ReadLine();
+                    if (string.IsNullOrEmpty(person))
+                    {
+                        Console.WriteLine("Person can't be empty! Input persons name");
+                        person = Console.ReadLine();
+                    }
                     Console.WriteLine("");
 
                     sql = "SELECT COUNT(*) FROM Highscores WHERE (name = @user)";
@@ -175,13 +214,18 @@ namespace Groupwork
                     //reset the score of a specific user
                     Console.WriteLine("Enter the name of the user you want to reset:");
                     string victim = Convert.ToString(Console.ReadLine());
-                    // ask for confirmation by the user
-                    Console.WriteLine("Are you sure you want to reset the score for " + victim + "? Input y for yes, n for no");
-                    string resetConfirmation = Convert.ToString(Console.ReadLine());
-                    if (resetConfirmation == "y")
+                    if (string.IsNullOrEmpty(victim))
                     {
-                        // Resets the scores for every user
+                        Console.WriteLine("Name can't be empty! Input persons name");
+                        victim = Console.ReadLine();
+                    }
+                    sql = "SELECT COUNT(*) FROM Highscores WHERE (name = @user)";
+                    SQLiteCommand check_User_Name1 = new SQLiteCommand(sql, m_dbConnection);
+                    check_User_Name1.Parameters.AddWithValue("@user", victim);
+                    int UserExist = (int)(long)check_User_Name1.ExecuteScalar();
 
+                    if (UserExist > 0)
+                    {
                         sql = "UPDATE  Highscores SET score = '0' WHERE score  > 0 and name  ='" + victim + "';";
 
                         command = new SQLiteCommand(sql, m_dbConnection);
@@ -189,8 +233,10 @@ namespace Groupwork
                     }
                     else
                     {
+                        Console.WriteLine("Person doesn't exist");
                         continue;
                     }
+
                 }
                 else if (choice == 7)
                 {
