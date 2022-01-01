@@ -16,3 +16,6 @@ Added: ability to reset all scores
 Added: ability to reset the score of a specific user
 Added: reset confirmation dialog for both reset actions
 Changed: Removed an extra space from a print
+
+Jesse 1.1.2022
+Changed reset all scores and specific user to delete only scores from database.

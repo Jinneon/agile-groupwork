@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Data.SQLite;
 
@@ -68,6 +68,7 @@ namespace Groupwork
                 Console.WriteLine("Quit program: Write 4");
                 Console.WriteLine("Reset score for all users: Write 5");
                 Console.WriteLine("Reset score for a specific user: Write 6");
+                Console.WriteLine("Delete everything: Write 7");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 if (choice == 1)
                 {
@@ -158,7 +159,8 @@ namespace Groupwork
                     if (resetConfirmation == "y")
                     {
                         // Resets the scores for every user
-                        sql = "DELETE FROM Highscores;";
+                        sql = "UPDATE  Highscores SET score = '0' WHERE score  > 0;";
+
                         command = new SQLiteCommand(sql, m_dbConnection);
                         command.ExecuteNonQuery();
                     }
@@ -179,7 +181,25 @@ namespace Groupwork
                     if (resetConfirmation == "y")
                     {
                         // Resets the scores for every user
-                        sql = "DELETE FROM Highscores WHERE name ='" + victim + "';";
+
+                        sql = "UPDATE  Highscores SET score = '0' WHERE score  > 0 and name  ='" + victim + "';";
+
+                        command = new SQLiteCommand(sql, m_dbConnection);
+                        command.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else if (choice == 7)
+                {
+                    Console.WriteLine("Are you sure you want to delete everything? Input y for yes, n for no");
+                    string resetConfirmation = Convert.ToString(Console.ReadLine());
+                    if (resetConfirmation == "y")
+                    {
+                        // Deletes all inputs
+                        sql = "DELETE FROM Highscores;";
                         command = new SQLiteCommand(sql, m_dbConnection);
                         command.ExecuteNonQuery();
                     }
