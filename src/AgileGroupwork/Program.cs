@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Data.SQLite;
 
@@ -66,6 +66,8 @@ namespace Groupwork
                 Console.WriteLine("Show score for person: Write 3");
                 //  Console.WriteLine("Extras options: Write ex");
                 Console.WriteLine("Quit program: Write 4");
+                Console.WriteLine("Reset score for all users: Write 5");
+                Console.WriteLine("Reset score for a specific user: Write 6");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 if (choice == 1)
                 {
@@ -146,6 +148,34 @@ namespace Groupwork
                     Console.WriteLine("Bye!");
                     loop = true;
                     m_dbConnection.Close();
+                }
+
+                else if (choice == 5)
+                {
+                    // ask for confirmation by the user
+                    Console.WriteLine("Are you sure you want to reset all scores? Input y for yes, n for no");
+                    string resetConfirmation = Convert.ToString(Console.ReadLine());
+                    if (resetConfirmation == "y")
+                    {
+                        // Resets the scores for every user
+                        sql = "DELETE FROM Highscores;";
+                        command = new SQLiteCommand(sql, m_dbConnection);
+                        command.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                else if (choice == 6)
+                {
+                    //reset the score of a specific user
+                    Console.WriteLine("Enter the name of the user you want to reset:");
+                    string victim = Convert.ToString(Console.ReadLine());
+                    sql = "DELETE FROM Highscores WHERE name ='" + victim + "';";
+                    command = new SQLiteCommand(sql, m_dbConnection);
+                    command.ExecuteNonQuery();
                 }
 
                 // Insert dummy data

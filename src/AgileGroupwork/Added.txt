@@ -10,3 +10,7 @@ Coded "Show score for person".
 
 Jesse 31.12.2021
 Looping for menu and adding more persons.
+
+Oskar 1.1.2022
+Added ability to reset all scores
+Added ability to reset the score of a specific user
