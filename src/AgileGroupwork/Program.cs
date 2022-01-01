@@ -44,7 +44,7 @@ namespace Groupwork
                     string personName = Console.ReadLine();
                     if (string.IsNullOrEmpty(personName))
                     {
-                        Console.WriteLine("Name can't be empty! Input your name once more");
+                        Console.WriteLine("Name can't be empty! Input persons name");
                         personName = Console.ReadLine();
                     }
 
@@ -104,7 +104,7 @@ namespace Groupwork
                             string personName = Console.ReadLine();
                             if (string.IsNullOrEmpty(personName))
                             {
-                                Console.WriteLine("Name can't be empty! Input your name");
+                                Console.WriteLine("Name can't be empty! Input persons name");
                                 personName = Console.ReadLine();
                             }
 
