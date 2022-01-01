@@ -37,7 +37,7 @@ namespace Groupwork
 
                     sql = "INSERT INTO Highscores (name, score) " +
               "VALUES (@someValue, @someOtherValue);";
-                    Console.WriteLine(" Score for a person?");
+                    Console.WriteLine("Score for a person?");
                     int score = Convert.ToInt32(Console.ReadLine());
 
                     using (var cmd = new SQLiteCommand(sql, m_dbConnection))
@@ -173,9 +173,20 @@ namespace Groupwork
                     //reset the score of a specific user
                     Console.WriteLine("Enter the name of the user you want to reset:");
                     string victim = Convert.ToString(Console.ReadLine());
-                    sql = "DELETE FROM Highscores WHERE name ='" + victim + "';";
-                    command = new SQLiteCommand(sql, m_dbConnection);
-                    command.ExecuteNonQuery();
+                    // ask for confirmation by the user
+                    Console.WriteLine("Are you sure you want to reset the score for " + victim + "? Input y for yes, n for no");
+                    string resetConfirmation = Convert.ToString(Console.ReadLine());
+                    if (resetConfirmation == "y")
+                    {
+                        // Resets the scores for every user
+                        sql = "DELETE FROM Highscores WHERE name ='" + victim + "';";
+                        command = new SQLiteCommand(sql, m_dbConnection);
+                        command.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
 
                 // Insert dummy data
@@ -189,8 +200,6 @@ namespace Groupwork
                   command = new SQLiteCommand(sql, m_dbConnection);
                   command.ExecuteNonQuery();*/
             }
-
-
         }
     }
 }
