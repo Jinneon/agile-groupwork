@@ -20,3 +20,5 @@ Changed: Removed an extra space from a print
 Jesse 1.1.2022
 Changed reset all scores and specific user to delete only scores from database.
 Added error handling for user inputs
+Jesse 14.1.2022
+Can´t add negative scores

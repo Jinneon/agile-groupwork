@@ -35,12 +35,13 @@ namespace Groupwork
                 Console.WriteLine("This is not a number!");
                 input = Console.ReadLine();
             }
+
             int count = 0;
             while (true)
             {
                 if (count < sco2)
                 {
-                    Console.WriteLine("Person name?");
+                    Console.WriteLine("Name for a person?");
                     string personName = Console.ReadLine();
                     if (string.IsNullOrEmpty(personName))
                     {
@@ -58,6 +59,13 @@ namespace Groupwork
                     {
                         Console.WriteLine("This is not a number!");
                         score = Console.ReadLine();
+                    }
+
+                    if (sco < 0)
+                    {
+                        Console.WriteLine("Can't add negative scores !");
+                        score = Console.ReadLine();
+
                     }
 
 
@@ -100,7 +108,7 @@ namespace Groupwork
                     {
                         if (count1 < input1)
                         {
-                            Console.WriteLine("Person name?");
+                            Console.WriteLine("Name for a person?");
                             string personName = Console.ReadLine();
                             if (string.IsNullOrEmpty(personName))
                             {
@@ -121,6 +129,12 @@ namespace Groupwork
                                 score = Console.ReadLine();
                             }
 
+                            if (sco < 0)
+                            {
+                                Console.WriteLine("Can't add negative scores !");
+                                score = Console.ReadLine();
+
+                            }
                             using (var cmd = new SQLiteCommand(sql, m_dbConnection))
                             {
                                 cmd.Parameters.AddWithValue("@someValue", personName);
@@ -213,20 +227,20 @@ namespace Groupwork
                 {
                     //reset the score of a specific user
                     Console.WriteLine("Enter the name of the user you want to reset:");
-                    string victim = Convert.ToString(Console.ReadLine());
-                    if (string.IsNullOrEmpty(victim))
+                    string user2 = Convert.ToString(Console.ReadLine());
+                    if (string.IsNullOrEmpty(user2))
                     {
                         Console.WriteLine("Name can't be empty! Input persons name");
-                        victim = Console.ReadLine();
+                        user2 = Console.ReadLine();
                     }
                     sql = "SELECT COUNT(*) FROM Highscores WHERE (name = @user)";
                     SQLiteCommand check_User_Name1 = new SQLiteCommand(sql, m_dbConnection);
-                    check_User_Name1.Parameters.AddWithValue("@user", victim);
+                    check_User_Name1.Parameters.AddWithValue("@user", user2);
                     int UserExist = (int)(long)check_User_Name1.ExecuteScalar();
 
                     if (UserExist > 0)
                     {
-                        sql = "UPDATE  Highscores SET score = '0' WHERE score  > 0 and name  ='" + victim + "';";
+                        sql = "UPDATE  Highscores SET score = '0' WHERE score  > 0 and name  ='" + user2 + "';";
 
                         command = new SQLiteCommand(sql, m_dbConnection);
                         command.ExecuteNonQuery();
