@@ -16,6 +16,14 @@ namespace Groupwork
                 File.Delete("MyDatabase.sqlite");
             }
             SaveableDictionary dictionary = new SaveableDictionary("database.txt");
+            //Open database connection
+            SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+            m_dbConnection.Open();
+
+            // Create a table
+            string sql = "CREATE TABLE Highscores (name TEXT, hobby TEXT ,score INTEGER,uname TEXT, pw TEXT )";
+            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            command.ExecuteNonQuery();
             if (File.Exists("database.txt"))
             {
 
@@ -31,6 +39,18 @@ namespace Groupwork
                     if (!list.Contains(line))
                     {
                         dictionary.Add(line, "", "");
+                        string[] lineSplit = line.Split();
+                        sql = "INSERT INTO Highscores (name, hobby ,score) " +
+             "VALUES (@someValue, @hobby, @someOtherValue);";
+                        using (var cmd = new SQLiteCommand(sql, m_dbConnection))
+                        {
+                            cmd.Parameters.AddWithValue("@someValue", lineSplit[0]);
+                            //Default value for score is zero;
+                            cmd.Parameters.AddWithValue("@hobby", lineSplit[1]);
+
+                            cmd.Parameters.AddWithValue("@someOtherValue", lineSplit[2]);
+                            cmd.ExecuteNonQuery();
+                        }
                     }
 
                 }
@@ -46,15 +66,16 @@ namespace Groupwork
 
             //  SQLiteConnection.CreateFile("MyDatabase.sqlite");
 
-
+            #region close
             // Open a database connection
-            SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
-            m_dbConnection.Open();
+            /* SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+             m_dbConnection.Open();
 
-            // Create a table
-            string sql = "CREATE TABLE Highscores (name TEXT, hobby TEXT ,score INTEGER,uname TEXT, pw TEXT )";
-            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
-            command.ExecuteNonQuery();
+             // Create a table
+             string sql = "CREATE TABLE Highscores (name TEXT, hobby TEXT ,score INTEGER,uname TEXT, pw TEXT )";
+             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+             command.ExecuteNonQuery();*/
+            #endregion
 
             string sql2 = "CREATE TABLE LOGIN (uname TEXT, pw TEXT )";
             SQLiteCommand command2 = new SQLiteCommand(sql2, m_dbConnection);

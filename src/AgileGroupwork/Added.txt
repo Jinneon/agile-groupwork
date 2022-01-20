@@ -23,4 +23,5 @@ Added error handling for user inputs
 Jesse 14.1.2022
 Can´t add negative scores
 Jesse 20.01.2022
-ask username and password
+ask username and password. Added source of scores, 
+database saving
