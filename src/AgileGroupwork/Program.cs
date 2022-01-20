@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace Groupwork
 {
@@ -13,7 +14,7 @@ namespace Groupwork
             {
                 File.Delete("MyDatabase.sqlite");
             }
-            SQLiteConnection.CreateFile("MyDatabase.sqlite");
+            //  SQLiteConnection.CreateFile("MyDatabase.sqlite");
             Console.WriteLine("Created a database!");
 
             // Open a database connection
@@ -21,9 +22,58 @@ namespace Groupwork
             m_dbConnection.Open();
 
             // Create a table
-            string sql = "CREATE TABLE Highscores (name TEXT, score INTEGER)";
+            string sql = "CREATE TABLE Highscores (name TEXT, score INTEGER,uname TEXT, pw TEXT )";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
+
+            string sql2 = "CREATE TABLE LOGIN (uname TEXT, pw TEXT )";
+            SQLiteCommand command2 = new SQLiteCommand(sql2, m_dbConnection);
+            command2.ExecuteNonQuery();
+
+
+            ///Logic for login code start
+
+
+            Console.WriteLine("Your username?");
+            string pattern = @"^\w+$";
+
+            Regex regex = new Regex(pattern);
+
+            string username = Console.ReadLine();
+            if (!Regex.Match(username, pattern).Success)
+            {
+                Console.WriteLine("Only numbers, letters or _");
+                username = Console.ReadLine();
+            }
+            Console.WriteLine("Your password?");
+
+            string password = Console.ReadLine();
+            if (!Regex.Match(password, pattern).Success)
+            {
+                Console.WriteLine("Only numbers, letters or _");
+                password = Console.ReadLine();
+            }
+
+
+
+            sql2 = "INSERT INTO LOGIN (uname, pw) " +
+                       "VALUES (@username, @password);";
+
+
+            using (var cmd = new SQLiteCommand(sql2, m_dbConnection))
+            {
+                cmd.Parameters.AddWithValue("@username", username);
+                //Default value for score is zero;
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.ExecuteNonQuery();
+            }
+
+            Console.WriteLine(username + " has logged in");
+
+
+
+
+            //Login end
 
             Console.WriteLine("How many persons?");
 
@@ -98,6 +148,8 @@ namespace Groupwork
                 Console.WriteLine("Reset score for all users: Write 5");
                 Console.WriteLine("Reset score for a specific user: Write 6");
                 Console.WriteLine("Delete everything: Write 7");
+                Console.WriteLine("Test login info: Write 8");
+
                 int choice = Convert.ToInt32(Console.ReadLine());
                 if (choice == 1)
                 {
@@ -268,6 +320,20 @@ namespace Groupwork
                         continue;
                     }
                 }
+                //for testing only
+                if (choice == 8)
+                {
+                    Console.WriteLine("");
+                    sql = "SELECT * FROM LOGIN ORDER BY uname DESC";
+                    command = new SQLiteCommand(sql, m_dbConnection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("Username: " + reader["uname"] + "\tPassword: " + reader["pw"]);
+                    }
+
+                }
+
 
                 // Insert dummy data
                 /*  sql = "INSERT INTO Highscores (name, score) VALUES ('Me', 9001)";

@@ -22,3 +22,5 @@ Changed reset all scores and specific user to delete only scores from database.
 Added error handling for user inputs
 Jesse 14.1.2022
 Can´t add negative scores
+Jesse 20.01.2022
+ask username and password
