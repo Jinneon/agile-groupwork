@@ -2,6 +2,7 @@
 using System.IO;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Groupwork
 {
@@ -14,15 +15,44 @@ namespace Groupwork
             {
                 File.Delete("MyDatabase.sqlite");
             }
+            SaveableDictionary dictionary = new SaveableDictionary("database.txt");
+            if (File.Exists("database.txt"))
+            {
+
+                dictionary.Load();
+
+                List<string> list = new List<string>();
+
+                // Read the file and display it line by line.  
+
+                foreach (string line in System.IO.File.ReadLines("database.txt"))
+                {
+                    System.Console.WriteLine(line);
+                    if (!list.Contains(line))
+                    {
+                        dictionary.Add(line, "", "");
+                    }
+
+                }
+            }
+            else
+            {
+                File.Create("database.txt");
+                Console.WriteLine("Created database file");
+
+
+            }
+
+
             //  SQLiteConnection.CreateFile("MyDatabase.sqlite");
-            Console.WriteLine("Created a database!");
+
 
             // Open a database connection
             SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
             m_dbConnection.Open();
 
             // Create a table
-            string sql = "CREATE TABLE Highscores (name TEXT, score INTEGER,uname TEXT, pw TEXT )";
+            string sql = "CREATE TABLE Highscores (name TEXT, hobby TEXT ,score INTEGER,uname TEXT, pw TEXT )";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
 
@@ -98,9 +128,17 @@ namespace Groupwork
                         Console.WriteLine("Name can't be empty! Input persons name");
                         personName = Console.ReadLine();
                     }
+                    Console.Write("Hobby?)");
+                    string inputHobby = Console.ReadLine();
+                    if (string.IsNullOrEmpty(inputHobby))
+                    {
+                        Console.WriteLine("Hobby can't be empty!");
+                        inputHobby = Console.ReadLine();
+                    }
 
-                    sql = "INSERT INTO Highscores (name, score) " +
-              "VALUES (@someValue, @someOtherValue);";
+
+                    sql = "INSERT INTO Highscores (name, hobby ,score) " +
+              "VALUES (@someValue, @hobby, @someOtherValue);";
                     Console.WriteLine("Score for a person?");
                     var score = Console.ReadLine();
                     int sco;
@@ -123,10 +161,18 @@ namespace Groupwork
                     {
                         cmd.Parameters.AddWithValue("@someValue", personName);
                         //Default value for score is zero;
+                        cmd.Parameters.AddWithValue("@hobby", inputHobby);
                         cmd.Parameters.AddWithValue("@someOtherValue", score);
                         cmd.ExecuteNonQuery();
                     }
+
+
+
+                    string s = Convert.ToString(score);
+                    //  dictionary.Load();
+                    dictionary.Add(personName, inputHobby, s);
                     count++;
+                    dictionary.Save();
 
                 }
                 else
@@ -168,8 +214,16 @@ namespace Groupwork
                                 personName = Console.ReadLine();
                             }
 
-                            sql = "INSERT INTO Highscores (name, score) " +
-                      "VALUES (@someValue, @someOtherValue);";
+                            Console.Write("Hobby?)");
+                            string inputHobby = Console.ReadLine();
+                            if (string.IsNullOrEmpty(inputHobby))
+                            {
+                                Console.WriteLine("Hobby can't be empty! Input persons name");
+                                inputHobby = Console.ReadLine();
+                            }
+
+                            sql = "INSERT INTO Highscores (name, hobby, score) " +
+                      "VALUES (@someValue, @hobby, @someOtherValue);";
                             Console.WriteLine(" Score for a person?");
 
                             var score = Console.ReadLine();
@@ -191,9 +245,16 @@ namespace Groupwork
                             {
                                 cmd.Parameters.AddWithValue("@someValue", personName);
                                 //Default value for score is zero;
+                                cmd.Parameters.AddWithValue("@hobby", inputHobby);
+
                                 cmd.Parameters.AddWithValue("@someOtherValue", score);
                                 cmd.ExecuteNonQuery();
                             }
+                            string s = Convert.ToString(score);
+
+                            dictionary.Add(personName, inputHobby, s);
+
+                            dictionary.Save();
                             count1++;
                         }
                         else
@@ -211,7 +272,7 @@ namespace Groupwork
                     SQLiteDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+                        Console.WriteLine("Name: " + reader["name"] + "\tHobby: " + reader["hobby"] + "\tScore: " + reader["score"]);
                     }
 
                 }
@@ -234,12 +295,13 @@ namespace Groupwork
 
                     if (UserExist > 0)
                     {
-                        sql = "SELECT name, score FROM Highscores WHERE name = '" + person + "'";
+                        sql = "SELECT name,hobby ,score FROM Highscores WHERE name = '" + person + "'";
                         command = new SQLiteCommand(sql, m_dbConnection);
                         SQLiteDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+                            //  Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+                            Console.WriteLine("Name: " + reader["name"] + "\tHobby: " + reader["hobby"] + "\tScore: " + reader["score"]);
                         }
                     }
                     else
@@ -321,7 +383,7 @@ namespace Groupwork
                     }
                 }
                 //for testing only
-                if (choice == 8)
+                else if (choice == 8)
                 {
                     Console.WriteLine("");
                     sql = "SELECT * FROM LOGIN ORDER BY uname DESC";
@@ -333,6 +395,21 @@ namespace Groupwork
                     }
 
                 }
+                else if (choice == 9)
+                {
+                    if (File.Exists("database.txt"))
+                    {
+                        Console.WriteLine("Reading data");
+                        // Read the file and display it line by line.  
+                        foreach (string line in System.IO.File.ReadLines("database.txt"))
+                        {
+                            System.Console.WriteLine(line);
+
+                        }
+                    }
+                }
+
+
 
 
                 // Insert dummy data
@@ -346,6 +423,8 @@ namespace Groupwork
                   command = new SQLiteCommand(sql, m_dbConnection);
                   command.ExecuteNonQuery();*/
             }
+
         }
+
     }
 }
