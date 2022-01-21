@@ -28,3 +28,7 @@ database saving
 Amanda 21.1.2022
 Added: login or create new account
 Added: exit program in the beginning
+
+Oskar 21.1.2022
+Changed: Modified application exit code
+Changed: Fixed some errors

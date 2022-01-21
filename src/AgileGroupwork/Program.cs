@@ -89,24 +89,27 @@ namespace Groupwork
             Console.WriteLine("Create a new user account: Write +");
             Console.WriteLine("Exit program: Write any other key");
 
+            string username = "";
+            string password = "";
+            string pattern = @"^\w+$";
             string proceed = Console.ReadLine();
             ///Logic for login code start
-            if (proceed != "*" || proceed != "+")
+            if (proceed != "*" && proceed != "+")
             {
                 Console.WriteLine("");
                 Console.WriteLine("Bye!");
                 m_dbConnection.Close();
+                Environment.Exit(0);
             }
             
-
             if( proceed == "*")
             {
             Console.WriteLine("Your username?");
-            string pattern = @"^\w+$";
+            //string pattern = @"^\w+$";
 
             Regex regex = new Regex(pattern);
 
-            string username = Console.ReadLine();
+            username = Console.ReadLine();
             if (!Regex.Match(username, pattern).Success)
             {
                 Console.WriteLine("Only numbers, letters or _");
@@ -114,7 +117,7 @@ namespace Groupwork
             }
             Console.WriteLine("Your password?");
 
-            string password = Console.ReadLine();
+            password = Console.ReadLine();
             if (!Regex.Match(password, pattern).Success)
             {
                 Console.WriteLine("Only numbers, letters or _");
