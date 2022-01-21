@@ -32,3 +32,5 @@ Added: exit program in the beginning
 Oskar 21.1.2022
 Changed: Modified application exit code
 Changed: Fixed some errors
+Changed: Readability improvements
+Changed: Account creation into table (work in progress)
