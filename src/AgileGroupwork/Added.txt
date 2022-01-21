@@ -27,3 +27,4 @@ ask username and password. Added source of scores,
 database saving
 Amanda 21.1.2022
 Added: login or create new account
+Added: exit program in the beginning

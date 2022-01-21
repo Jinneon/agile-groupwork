@@ -85,12 +85,18 @@ namespace Groupwork
 
             Console.WriteLine("Welcome to team Perfect's program, how would you like to proceed?");
             Console.WriteLine(" ");
-            Console.WriteLine("Login in: Write *");
-            Console.WriteLine("Create a new user account: Write +");
+            Console.WriteLine("Login in: Press *");
+            Console.WriteLine("Create a new user account: Press +");
+            Console.WriteLine("Exit program: Press any other key");
 
             string proceed = Console.ReadLine();
             ///Logic for login code start
-
+            if (proceed != "*" || proceed != "+")
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Bye!");
+                m_dbConnection.Close();
+            }
             
 
             if( proceed == "*")
