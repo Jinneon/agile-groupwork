@@ -42,10 +42,10 @@ namespace Groupwork
 
 
 
-        public void Add(string name, string hobby, string score)
+        public void Add(string name, string hobby, string score, string username)
         {
             string s = Convert.ToString(score);
-            this.list.Add(new Data { Name = name, Hobby = hobby, Score = s });
+            this.list.Add(new Data { Name = name, Hobby = hobby, Score = s, Username = username });
 
 
         }
@@ -66,7 +66,7 @@ namespace Groupwork
 
                     string[] parts = line.Split(":");
 
-                    Add(parts[0], parts[1], parts[2]);
+                    Add(parts[0], parts[1], parts[2], parts[3]);
 
                 }
 
@@ -78,7 +78,7 @@ namespace Groupwork
 
             {
                 //Don´t mind this (error);
-                // Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message);
 
                 return false;
 

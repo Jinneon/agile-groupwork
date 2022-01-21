@@ -11,12 +11,13 @@ namespace Groupwork
         public string Name { get; set; }
         public string Hobby { get; set; }
         public string Score { get; set; }
+        public string Username { get; set; }
 
 
         public override string ToString()
         {
             //  Console.WriteLine("works");
-            return Name + " " + Hobby + " " + Score;
+            return Name + " " + Hobby + " " + Score + " " + Username;
         }
     }
 }
