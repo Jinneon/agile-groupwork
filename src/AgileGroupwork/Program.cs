@@ -81,10 +81,18 @@ namespace Groupwork
             SQLiteCommand command2 = new SQLiteCommand(sql2, m_dbConnection);
             command2.ExecuteNonQuery();
 
+            Console.WriteLine("Welcome to team Perfect's program, how would you like to proceed?");
+            Console.WriteLine(" ");
+            Console.WriteLine("Login in: Write *");
+            Console.WriteLine("Create a new user account: Write +");
 
+            string proceed = Console.ReadLine();
             ///Logic for login code start
 
+            
 
+            if( proceed == "*")
+            {
             Console.WriteLine("Your username?");
             string pattern = @"^\w+$";
 
@@ -120,12 +128,14 @@ namespace Groupwork
             }
 
             Console.WriteLine(username + " has logged in");
-
-
+            }
 
 
             //Login end
-
+            if (proceed =="+")
+            {
+                //code create a new user
+            }
             Console.WriteLine("How many persons?");
 
             var input = Console.ReadLine();
@@ -149,7 +159,7 @@ namespace Groupwork
                         Console.WriteLine("Name can't be empty! Input persons name");
                         personName = Console.ReadLine();
                     }
-                    Console.Write("Hobby?)");
+                    Console.WriteLine("Hobby?");
                     string inputHobby = Console.ReadLine();
                     if (string.IsNullOrEmpty(inputHobby))
                     {
