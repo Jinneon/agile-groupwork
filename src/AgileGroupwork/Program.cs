@@ -85,7 +85,7 @@ namespace Groupwork
 
             Console.WriteLine("Welcome to team Perfect's program, how would you like to proceed?");
             Console.WriteLine(" ");
-            Console.WriteLine("Login: Write *");
+            Console.WriteLine("Login in: Write *");
             Console.WriteLine("Create a new user account: Write +");
             Console.WriteLine("Exit program: Write any other key");
 
@@ -104,9 +104,7 @@ namespace Groupwork
             
             if( proceed == "*")
             {
-            Console.WriteLine("Login:");
-            Console.WriteLine("--------");
-            Console.WriteLine("Enter username:");
+            Console.WriteLine("Your username?");
             //string pattern = @"^\w+$";
 
             Regex regex = new Regex(pattern);
@@ -114,15 +112,15 @@ namespace Groupwork
             username = Console.ReadLine();
             if (!Regex.Match(username, pattern).Success)
             {
-                Console.WriteLine("Only numbers, letters or _ permitted!\nEnter username:");
+                Console.WriteLine("Only numbers, letters or _");
                 username = Console.ReadLine();
             }
-            Console.WriteLine("Enter password:");
+            Console.WriteLine("Your password?");
 
             password = Console.ReadLine();
             if (!Regex.Match(password, pattern).Success)
             {
-                Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
+                Console.WriteLine("Only numbers, letters or _");
                 password = Console.ReadLine();
             }
 
@@ -143,52 +141,23 @@ namespace Groupwork
                   cmd.ExecuteNonQuery();
               }*/
 
-            Console.WriteLine("User " + username + " has logged in");
+            Console.WriteLine(username + " has logged in");
             }
 
 
             //Login end
             if (proceed =="+")
             {
-                Console.WriteLine("Creating new login: \n---------------------\nEnter username:");
-                //string pattern = @"^\w+$";
-
-                Regex regex = new Regex(pattern);
-
-                username = Console.ReadLine();
-                if (!Regex.Match(username, pattern).Success)
-                {
-                    Console.WriteLine("Only numbers, letters or _ permitted!\nEnter username:");
-                    username = Console.ReadLine();
-                }
-                Console.WriteLine("Enter password:");
-
-                password = Console.ReadLine();
-                if (!Regex.Match(password, pattern).Success)
-                {
-                    Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
-                    password = Console.ReadLine();
-                }
-                
-                string sql3 = "INSERT INTO LOGIN (uname, pw) " +
-                            "VALUES (@username, @password);";
-
-
-                using (var cmd = new SQLiteCommand(sql3, m_dbConnection))
-                {
-                    cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password);
-                    cmd.ExecuteNonQuery();
-                }
+                //code create a new user
             }
-            Console.WriteLine("How many persons to add?");
+            Console.WriteLine("How many persons?");
 
             var input = Console.ReadLine();
             int sco2;
 
             while (!int.TryParse(input, out sco2))
             {
-                Console.WriteLine("This is not a number!\nHow many persons to add?");
+                Console.WriteLine("This is not a number!");
                 input = Console.ReadLine();
             }
 
@@ -199,16 +168,16 @@ namespace Groupwork
                 {
                     Console.WriteLine("Name for a person?");
                     string personName = Console.ReadLine();
-                    if (string.IsNullOrEmpty(personName))
+                    while (string.IsNullOrEmpty(personName))
                     {
-                        Console.WriteLine("Name can't be empty!\nInput persons name");
+                        Console.WriteLine("Name can't be empty! Input persons name");
                         personName = Console.ReadLine();
                     }
                     Console.WriteLine("Hobby?");
                     string inputHobby = Console.ReadLine();
-                    if (string.IsNullOrEmpty(inputHobby))
+                    while (string.IsNullOrEmpty(inputHobby))
                     {
-                        Console.WriteLine("Hobby can't be empty!\nHobby?");
+                        Console.WriteLine("Hobby can't be empty!");
                         inputHobby = Console.ReadLine();
                     }
 
@@ -223,13 +192,22 @@ namespace Groupwork
 
                     while (!int.TryParse(score, out sco))
                     {
-                        Console.WriteLine("This is not a number!\nScore for a person?");
-                        score = Console.ReadLine();
+                        try
+                        {
+                            Console.WriteLine("This is not a number!"); 
+                            score = Console.ReadLine();
+                        }
+                        catch
+                        {
+                           
+                        }
+                   
                     }
+
 
                     if (sco < 0)
                     {
-                        Console.WriteLine("Can't add negative scores!\nScore for a person?");
+                        Console.WriteLine("Can't add negative scores !");
                         score = Console.ReadLine();
 
                     }
@@ -283,44 +261,52 @@ namespace Groupwork
                 if (choice == 1)
                 {
                     Console.WriteLine("How many persons?");
-                    int input1 = Convert.ToInt32(Console.ReadLine());
+                    var input1 = Console.ReadLine();
                     int count1 = 0;
+                    int sco3;
+
+                    while (!int.TryParse(input1, out sco3))
+                    {
+                        Console.WriteLine("This is not a number!");
+                        input1 = Console.ReadLine();
+                    }
+                    
                     while (true)
                     {
-                        if (count1 < input1)
+                        if (count1 < Convert.ToInt32(input1))
                         {
                             Console.WriteLine("Name for a person?");
                             string personName = Console.ReadLine();
-                            if (string.IsNullOrEmpty(personName))
+                            while (string.IsNullOrEmpty(personName))
                             {
-                                Console.WriteLine("Name can't be empty!\nInput persons name");
+                                Console.WriteLine("Name can't be empty! Input persons name");
                                 personName = Console.ReadLine();
                             }
 
-                            Console.Write("Hobby?");
+                            Console.WriteLine("Hobby?");
                             string inputHobby = Console.ReadLine();
-                            if (string.IsNullOrEmpty(inputHobby))
+                            while (string.IsNullOrEmpty(inputHobby))
                             {
-                                Console.WriteLine("Hobby can't be empty!\nInput persons name");
+                                Console.WriteLine("Hobby can't be empty! Input hobby");
                                 inputHobby = Console.ReadLine();
                             }
 
                             sql = "INSERT INTO Highscores (name, hobby, score) " +
                       "VALUES (@someValue, @hobby, @someOtherValue);";
-                            Console.WriteLine(" Score for a person?");
+                            Console.WriteLine("Score for a person?");
 
                             var score = Console.ReadLine();
                             int sco;
 
                             while (!int.TryParse(score, out sco))
                             {
-                                Console.WriteLine("This is not a number!\nScore for a person?");
+                                Console.WriteLine("This is not a number!");
                                 score = Console.ReadLine();
                             }
 
                             if (sco < 0)
                             {
-                                Console.WriteLine("Can't add negative scores!");
+                                Console.WriteLine("Can't add negative scores !");
                                 score = Console.ReadLine();
 
                             }
@@ -367,7 +353,7 @@ namespace Groupwork
                     string person = Console.ReadLine();
                     if (string.IsNullOrEmpty(person))
                     {
-                        Console.WriteLine("Person can't be empty!\nInput persons name");
+                        Console.WriteLine("Person can't be empty! Input persons name");
                         person = Console.ReadLine();
                     }
                     Console.WriteLine("");
@@ -525,7 +511,7 @@ namespace Groupwork
                 else if (choice == 6)
                 {
                     Console.WriteLine(currentUser + " logged off");
-                    Console.WriteLine("Enter username:");
+                    Console.WriteLine("Your username?");
                     pattern = @"^\w+$";
 
                     Regex regex2 = new Regex(pattern);
@@ -533,15 +519,15 @@ namespace Groupwork
                     username = Console.ReadLine();
                     if (!Regex.Match(username, pattern).Success)
                     {
-                        Console.WriteLine("Only numbers, letters or _ permitted!\nEnter username:");
+                        Console.WriteLine("Only numbers, letters or _");
                         username = Console.ReadLine();
                     }
-                    Console.WriteLine("Enter password:");
+                    Console.WriteLine("Your password?");
 
                     password = Console.ReadLine();
                     if (!Regex.Match(password, pattern).Success)
                     {
-                        Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
+                        Console.WriteLine("Only numbers, letters or _");
                         password = Console.ReadLine();
                     }
 
@@ -552,7 +538,7 @@ namespace Groupwork
 
                     while (!int.TryParse(input2, out sco3))
                     {
-                        Console.WriteLine("This is not a number!\nHow many persons?");
+                        Console.WriteLine("This is not a number!");
                         input2 = Console.ReadLine();
                     }
 
@@ -565,14 +551,14 @@ namespace Groupwork
                             string personName = Console.ReadLine();
                             if (string.IsNullOrEmpty(personName))
                             {
-                                Console.WriteLine("Name can't be empty!\nInput persons name:");
+                                Console.WriteLine("Name can't be empty! Input persons name");
                                 personName = Console.ReadLine();
                             }
-                            Console.Write("Hobby?");
+                            Console.WriteLine("Hobby?");
                             string inputHobby = Console.ReadLine();
                             if (string.IsNullOrEmpty(inputHobby))
                             {
-                                Console.WriteLine("Hobby can't be empty!\nHobby?");
+                                Console.WriteLine("Hobby can't be empty!");
                                 inputHobby = Console.ReadLine();
                             }
 
@@ -587,13 +573,13 @@ namespace Groupwork
 
                             while (!int.TryParse(score, out sco))
                             {
-                                Console.WriteLine("This is not a number!\nScore for a person?");
+                                Console.WriteLine("This is not a number!");
                                 score = Console.ReadLine();
                             }
 
                             if (sco < 0)
                             {
-                                Console.WriteLine("Can't add negative scores!\nScore for a person?");
+                                Console.WriteLine("Can't add negative scores !");
                                 score = Console.ReadLine();
 
                             }
