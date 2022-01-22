@@ -20,11 +20,14 @@ Changed: Removed an extra space from a print
 Jesse 1.1.2022
 Changed reset all scores and specific user to delete only scores from database.
 Added error handling for user inputs
+
 Jesse 14.1.2022
 Can´t add negative scores
 Jesse 20.01.2022
 ask username and password. Added source of scores, 
 database saving
+User cannot delete other usernames scores
+
 Amanda 21.1.2022
 Added: login or create new account
 Added: exit program in the beginning
@@ -42,3 +45,9 @@ Oskar 22.1.2022
 Changed: resolved version conflict
 Changed: Database is now persistent
 Changed: Removed some unused example code
+
+Jesse 22.1.2022
+Fixed app crashing bug at start of program.
+Changed code structure, because login option 
+shut program right after login was done.
+Code cleaning
