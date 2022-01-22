@@ -34,3 +34,11 @@ Changed: Modified application exit code
 Changed: Fixed some errors
 Changed: Readability improvements
 Changed: Account creation into table (work in progress)
+
+Martin 22.1.2022
+Changed: Minor bugfixes
+
+Oskar 22.1.2022
+Changed: resolved version conflict
+Changed: Database is now persistent
+Changed: Removed some unused example code
