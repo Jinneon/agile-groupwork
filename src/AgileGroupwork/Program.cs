@@ -19,48 +19,7 @@ namespace Groupwork
             string sql = "CREATE TABLE Highscores (name TEXT, hobby TEXT ,score INTEGER,uname TEXT, pw TEXT )";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             //            command.ExecuteNonQuery();
-            #region    
-            /*  if (File.Exists("database.txt"))
-             {
 
-                 dictionary.Load();
-
-                 List<string> list = new List<string>();
-
-                 // Read the file and display it line by line.  
-
-                 foreach (string line in System.IO.File.ReadLines("database.txt"))
-                 {
-                     //  System.Console.WriteLine(line);
-                     if (!list.Contains(line))
-                     {
-                         dictionary.Add(line, "", "", "");
-                         string[] lineSplit = line.Split();
-                         sql = "INSERT INTO Highscores (name, hobby ,score, uname) " +
-              "VALUES (@someValue, @hobby, @someOtherValue, @username);";
-                         using (var cmd = new SQLiteCommand(sql, m_dbConnection))
-                         {
-                             Console.WriteLine(lineSplit.Length + " length");
-                             cmd.Parameters.AddWithValue("@someValue", lineSplit[0]);
-                             //Default value for score is zero;
-                             cmd.Parameters.AddWithValue("@hobby", lineSplit[1]);
-
-                             cmd.Parameters.AddWithValue("@someOtherValue", lineSplit[2]);
-                             cmd.Parameters.AddWithValue("@username", lineSplit[3]);
-                             cmd.ExecuteNonQuery();
-                         }
-                     }
-
-                 }
-             }
-                else
-             {
-                 File.Create("database.txt");
-                 Console.WriteLine("Created database file");
-
-
-             }*/
-            #endregion
 
             Console.WriteLine("Welcome to team Perfect's program, how would you like to proceed?");
             Console.WriteLine(" ");
@@ -111,6 +70,11 @@ namespace Groupwork
             {
                 program = true;
             }
+            if (realList.Count == 0)
+            {
+                Console.WriteLine("No users yet create account");
+                proceed = "+";
+            }
 
 
 
@@ -138,22 +102,23 @@ namespace Groupwork
 
                         }
                     }
+                    if (!Regex.Match(username, pattern).Success)
+                    {
+                        Console.WriteLine("Only numbers, letters or _ permitted!\nEnter username:");
+                        username = Console.ReadLine();
+                    }
 
-                }
-                if (!Regex.Match(username, pattern).Success)
-                {
-                    Console.WriteLine("Only numbers, letters or _ permitted!\nEnter username:");
-                    username = Console.ReadLine();
-                }
+                    Console.WriteLine("Enter password:");
 
-                Console.WriteLine("Enter password:");
-
-                password = Console.ReadLine();
-                if (!Regex.Match(password, pattern).Success)
-                {
-                    Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
                     password = Console.ReadLine();
+                    if (!Regex.Match(password, pattern).Success)
+                    {
+                        Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
+                        password = Console.ReadLine();
+                    }
+
                 }
+
 
 
 
@@ -182,53 +147,7 @@ namespace Groupwork
                     Console.WriteLine("Only numbers, letters or _ permitted!\nEnter password:");
                     password = Console.ReadLine();
                 }
-                #region Oscar`s testing 
 
-
-                /*             int userExists;
-                            int pwMatches;
-                            sql = "SELECT * FROM LOGIN WHERE uname = @username;";
-                            using (var cmd = new SQLiteCommand(sql, m_dbConnection))
-                            {
-                                cmd.Parameters.AddWithValue("@username", username);
-                                userExists = cmd.ExecuteNonQuery();
-                            }
-                            if (userExists > 1)
-                            {
-                                Console.WriteLine("No such user! Please restart application and create a new user.");
-                                Environment.Exit(0);
-                            }
-                            else
-                            {
-                                using (var cmd = new SQLiteCommand(sql, m_dbConnection))
-                                {   
-                                    sql = "SELECT * FROM LOGIN WHERE pw = @password;";
-                                    cmd.Parameters.AddWithValue("@password", password);
-                                    pwMatches = cmd.ExecuteNonQuery();
-                                }
-                                if (pwMatches < 1)
-                                {
-                                    Console.WriteLine("Wrong password! Please restart application and try again.");
-                                    Environment.Exit(0);
-                                }
-                            } */
-
-
-                /* sql2 = "INSERT INTO LOGIN (uname, pw) " +
-                            "VALUES (@username, @password);";*/
-                /* sql = "INSERT INTO Highscores (uname, pw) " +
-                 "VALUES (@username, @password);";*/
-
-
-
-                /*  using (var cmd = new SQLiteCommand(sql, m_dbConnection))
-                  {
-                      cmd.Parameters.AddWithValue("@username", username);
-                      //Default value for score is zero;
-                      cmd.Parameters.AddWithValue("@password", password);
-                      cmd.ExecuteNonQuery();
-                  }*/
-                #endregion
 
                 Console.WriteLine("User " + username + " has logged in");
             }
@@ -369,8 +288,8 @@ namespace Groupwork
                                 inputHobby = Console.ReadLine();
                             }
 
-                            sql = "INSERT INTO Highscores (name, hobby, score) " +
-                      "VALUES (@someValue, @hobby, @someOtherValue);";
+                            sql = "INSERT INTO Highscores (name, hobby, score, uname) " +
+                      "VALUES (@someValue, @hobby, @someOtherValue, @uname);";
                             Console.WriteLine("Score for a person?");
 
                             var score = Console.ReadLine();
@@ -395,6 +314,7 @@ namespace Groupwork
                                 cmd.Parameters.AddWithValue("@hobby", inputHobby);
 
                                 cmd.Parameters.AddWithValue("@someOtherValue", score);
+                                cmd.Parameters.AddWithValue("@uname", username);
                                 cmd.ExecuteNonQuery();
                             }
                             string s = Convert.ToString(score);
@@ -482,13 +402,14 @@ namespace Groupwork
 
                     if (UserExist > 0)
                     {
-                        sql = "SELECT name,hobby ,score FROM Highscores WHERE uname = '" + username + "'";
+                        sql = "SELECT name,hobby ,score, uname FROM Highscores WHERE uname = '" + username + "'";
                         command = new SQLiteCommand(sql, m_dbConnection);
                         SQLiteDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
                             //  Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
-                            Console.WriteLine("Name: " + reader["name"] + "\tHobby: " + reader["hobby"] + "\tScore: " + reader["score"]);
+                            Console.WriteLine("Name: " + reader["name"] + "\tHobby: " + reader["hobby"] + "\tScore: " + reader["score"]
+                            + "\tUsername: " + reader["uname"]);
                         }
                     }
                     else
@@ -677,9 +598,10 @@ namespace Groupwork
 
                     }
                 }
+
             }
         }
+
     }
 
 }
-

@@ -54,3 +54,6 @@ Code cleaning
 
 Jesse 23.1.2022
 Cannot create same username twice
+
+Jesse 26.1.2022
+Bug fixes
